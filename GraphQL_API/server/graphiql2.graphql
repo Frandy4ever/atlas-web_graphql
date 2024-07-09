@@ -3,5 +3,11 @@ query {
     title
     weight
     description
+  },
+  project(id: "2") {
+    id
+    title
+    description
+    weight
   }
 }
