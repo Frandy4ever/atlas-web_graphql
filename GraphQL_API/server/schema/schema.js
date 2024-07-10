@@ -12,15 +12,15 @@ const Project = require('../models/project');
 const Task = require('../models/task');
 
 // Dummy data
-const projects = [
-  { id: '1', title: 'Advanced HTML', weight: 1, description: 'Welcome to the Web Stack specialization. ...' },
-  { id: '2', title: 'Bootstrap', weight: 1, description: 'Bootstrap is a free and open-source CSS framework ...' }
-];
+// const projects = [
+//   { id: '1', title: 'Advanced HTML', weight: 1, description: 'Welcome to the Web Stack specialization. ...' },
+//   { id: '2', title: 'Bootstrap', weight: 1, description: 'Bootstrap is a free and open-source CSS framework ...' }
+// ];
 
-const tasks = [
-  { id: '1', title: 'Create your first webpage', weight: 1, description: 'Create your first HTML file 0-index.html ...', projectId: '1' },
-  { id: '2', title: 'Structure your webpage', weight: 1, description: 'Copy the content of 0-index.html into 1-index.html ...', projectId: '1' }
-];
+// const tasks = [
+//   { id: '1', title: 'Create your first webpage', weight: 1, description: 'Create your first HTML file 0-index.html ...', projectId: '1' },
+//   { id: '2', title: 'Structure your webpage', weight: 1, description: 'Copy the content of 0-index.html into 1-index.html ...', projectId: '1' }
+// ];
 
 const TaskType = new GraphQLObjectType({
   name: 'Task',
@@ -32,7 +32,7 @@ const TaskType = new GraphQLObjectType({
     project: {
       type: ProjectType,
       resolve(parent, args) {
-        return _.find(projects, { id: parent.projectId });
+        return Project.findById(parent.projectId);
       }
     }
   }),
@@ -48,7 +48,7 @@ const ProjectType = new GraphQLObjectType({
     tasks: {
       type: new GraphQLList(TaskType),
       resolve(parent, args) {
-        return _.filter(tasks, { projectId: parent.id });
+        return Task.find({ projectId: parent.id });
       }
     }
   }),
@@ -61,26 +61,26 @@ const RootQuery = new GraphQLObjectType({
       type: TaskType,
       args: { id: { type: GraphQLID } },
       resolve(parent, args) {
-        return _.find(tasks, { id: args.id });
+        return Task.findById(args.id);
       }
     },
     project: {
       type: ProjectType,
       args: { id: { type: GraphQLID } },
       resolve(parent, args) {
-        return _.find(projects, { id: args.id });
+        return Project.findById(args.id);
       }
     },
     tasks: {
       type: new GraphQLList(TaskType),
       resolve(parent, args) {
-        return tasks;
+        return Task.find({});
       }
     },
     projects: {
       type: new GraphQLList(ProjectType),
       resolve(parent, args) {
-        return projects;
+        return Project.find({});
       }
     }
   }
