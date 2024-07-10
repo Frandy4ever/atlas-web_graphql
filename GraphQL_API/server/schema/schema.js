@@ -1,4 +1,11 @@
-const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLSchema, GraphQLID, GraphQLList } = require('graphql');
+const {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLInt,
+  GraphQLSchema,
+  GraphQLID,
+  GraphQLList
+} = require('graphql');
 const _ = require('lodash');
 
 // Dummy data

@@ -1,10 +1,20 @@
 const express = require('express');
 const { graphqlHTTP } = require('express-graphql');
-require('dotenv').config();
 const schema = require('./schema/schema');
+const mongoose = require('mongoose');
+require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 4000;
+
+// Connect to MongoDB Atlas
+mongoose.connect(process.env.MONGO_URI)
+.then(() => console.log('MongoDB connected successfully'))
+.catch(err => console.error('MongoDB connection error:', err));
+
+mongoose.connection.once('open', () => {
+  console.log('connected to database');
+});
 
 app.use('/graphql', graphqlHTTP({
   schema,
