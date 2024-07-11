@@ -38,3 +38,5 @@ Thumbs.db
 build/
 public/
 .cache/
+
+TEMP/
